@@ -86,6 +86,10 @@ MT_distribution <- top100 %>%
   ungroup()
 MT_distribution
 
+MTproficiencyPlot <- ggplot(MT_distribution, mapping = aes(x=Language, y=n))+
+  geom_col()+
+  coord_flip()
+MTproficiencyPlot
 ### Explore the performance per particular language
 ### to do so, we introduce a Metric called  ReadingLevelIndex which would score the following as follows:
 # Low emerging = 1, High Emerging = 2, Developing = 3, Transitioning = 4, Grade Level = 5
@@ -241,6 +245,3 @@ check.group.scores <- pre.post.g3 %>%
   ungroup()
 check.group.scores
 
-install.packages(c("usethis", "gitcreds"))
-usethis::create_github_token() # This will open a browser to generate the PAT
-gitcreds::gitcreds_set() # This will prompt you to paste your PAT
