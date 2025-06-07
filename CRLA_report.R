@@ -245,3 +245,10 @@ check.group.scores <- pre.post.g3 %>%
   ungroup()
 check.group.scores
 
+pre.post.g3 <- pre.post.g3 %>%
+  select(c("Region.x","Division.x","District.x","School.ID","School.Name.x","Language.x",
+         "pre_G3_MT_Index","pre_G3_Fil_Index","pre_G3_Eng_Index","Reading_Index","G3_MT_Index",
+         "G3_Eng_Index","G3_Fil_Index"))
+grade3_cleaned <- pre.post.g3 %>%
+  na.omit()
+write.csv(grade3_cleaned, file ="test.csv")
