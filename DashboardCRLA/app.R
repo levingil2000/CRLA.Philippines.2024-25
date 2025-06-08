@@ -30,7 +30,8 @@ ui <- fluidPage(
         tabPanel("Reading Index by Division", plotlyOutput("divisionPlot")),
         tabPanel("Distribution", plotlyOutput("distributionPlot")),
         tabPanel("G3 Index Comparison", plotlyOutput("g3IndexPlot")),
-        tabPanel("Heatmap", plotOutput("heatmapPlot"))
+        tabPanel("Heatmap", plotOutput("heatmapPlot")),
+        tabPanel("Top 10", plotOutput("top10Plot"))  # NEW TAB
       )
     )
   )
@@ -91,6 +92,23 @@ server <- function(input, output) {
       theme_minimal() +
       labs(title = "Heatmap of Reading Index by District and Division", x = "Division", y = "District") +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  })
+  
+  output$top10Plot <- renderPlot({
+    top10_data <- df %>%
+      group_by(Division.x, District.x) %>%
+      summarise(mean_reading = mean(Reading_Index, na.rm = TRUE), .groups = 'drop') %>%
+      arrange(desc(mean_reading)) %>%
+      slice_head(n = 10)
+    
+    ggplot(top10_data, aes(x = reorder(paste(District.x, Division.x, sep = ", "), mean_reading),
+                           y = mean_reading, fill = Division.x)) +
+      geom_bar(stat = "identity") +
+      coord_flip() +
+      labs(title = "Top 10 Districts by Reading Index",
+           x = "District, Division",
+           y = "Average Reading Index") +
+      theme_minimal()
   })
 }
 
