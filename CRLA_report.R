@@ -252,3 +252,11 @@ pre.post.g3 <- pre.post.g3 %>%
 grade3_cleaned <- pre.post.g3 %>%
   na.omit()
 write.csv(grade3_cleaned, file ="test.csv")
+
+Language_comparison_bar <- grade3_cleaned %>%
+  group_by(Language) %>%
+  summarise(mean_reading_index = mean(Reading_Index, na.rm=TRUE))
+
+ggplot(Language_comparison_bar, aes(x=mean_reading_index, y=Language))+
+  geom_bar()+
+  coord_flip()
